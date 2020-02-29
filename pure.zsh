@@ -134,13 +134,19 @@ prompt_pure_preprompt_render() {
 	# Username and machine, if applicable.
 	[[ -n $prompt_pure_state[username] ]] && preprompt_parts+=($prompt_pure_state[username])
 
-	# Set the path.
+	# Set OS icon
+	case `uname` in
+	  'Darwin')
+	    preprompt_parts+=('%F{$prompt_pure_colors[os:apple]}')
+	    ;;
+	esac
+	# Set the path
 	preprompt_parts+=('%F{${prompt_pure_colors[path]}}%~%f')
 
 	# Git branch and dirty status info.
 	typeset -gA prompt_pure_vcs_info
 	if [[ -n $prompt_pure_vcs_info[branch] ]]; then
-		preprompt_parts+=("%F{$git_color}"'${prompt_pure_vcs_info[branch]}'"%F{$git_dirty_color}"'${prompt_pure_git_dirty}%f')
+		preprompt_parts+=("%F{$git_color}"' ${prompt_pure_vcs_info[branch]}'"%F{$git_dirty_color}"'${prompt_pure_git_dirty}%f')
 	fi
 	# Git action (for example, merge).
 	if [[ -n $prompt_pure_vcs_info[action] ]]; then
@@ -797,6 +803,7 @@ prompt_pure_setup() {
 		prompt:error         red
 		prompt:success       magenta
 		prompt:continuation  242
+		os:apple             16
 		user                 242
 		user:root            default
 		virtualenv           242
