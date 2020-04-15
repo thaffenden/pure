@@ -139,6 +139,17 @@ prompt_pure_preprompt_render() {
 	  'Darwin')
 	    preprompt_parts+=('%F{$prompt_pure_colors[os:apple]}')
 	    ;;
+    'Linux')
+      if [[ -n "cat /proc/version | grep ubuntu" ]]; then
+	      preprompt_parts+=('%F{$prompt_pure_colors[os:ubuntu]}')
+      elif [[ -n "cat /proc/version | grep rasbian" ]]; then
+	      preprompt_parts+=('%F{$prompt_pure_colors[os:rasbian]}')
+      else
+	      preprompt_parts+=('%F{$prompt_pure_colors[os:linux]}')
+      fi
+      ;;
+    *)
+      ;;
 	esac
 	# Set the path
 	preprompt_parts+=('%F{${prompt_pure_colors[path]}}%~%f')
@@ -801,9 +812,12 @@ prompt_pure_setup() {
 		host                 242
 		path                 blue
 		prompt:error         red
-		prompt:success       magenta
+		prompt:success       green
 		prompt:continuation  242
 		os:apple             16
+    os:linux             16
+    os:rasbian           161
+    os:ubuntu            97
 		user                 242
 		user:root            default
 		virtualenv           yellow
